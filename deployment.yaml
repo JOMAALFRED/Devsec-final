@@ -1,9 +1,10 @@
-# deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-web-server
   namespace: default
+  labels:
+    app: nginx-web
 spec:
   replicas: 6
   selector:
@@ -40,7 +41,12 @@ metadata:
   namespace: default
   annotations:
     kubernetes.io/ingress.class: "traefik"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
+  tls:
+  - hosts:
+    - myweb.example.com
+    secretName: nginx-web-tls
   rules:
   - host: myweb.example.com
     http:
