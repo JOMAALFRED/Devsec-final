@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nginx-web-cert
+  namespace: web-app-prod
+spec:
+  secretName: nginx-tls-secret
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - myweb.example.com

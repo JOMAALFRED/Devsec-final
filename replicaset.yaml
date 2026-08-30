@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx-web-replicaset
+  namespace: web-app-prod
+  labels:
+    app: web-nginx
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: web-nginx
+  template:
+    metadata:
+      labels:
+        app: web-nginx
+    spec:
+      containers:
+      - name: nginx
+        image: joma970/mon-site:latest
+        ports:
+        - containerPort: 80
+          name: http
+        - containerPort: 443
+          name: https
+        volumeMounts:
+        - name: tls-certs
+          mountPath: "/etc/nginx/ssl"
+          readOnly: true
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "256Mi"
+      volumes:
+      - name: tls-certs
+        secret:
+          secretName: nginx-tls-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-web-service
+  namespace: web-app-prod
+spec:
+  type: ClusterIP
+  selector:
+    app: web-nginx
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  - name: https
+    port: 443
+    targetPort: 443
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-web-ingress
+  namespace: web-app-prod
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    cert-manager.io/cluster-issuer: "selfsigned-issuer"
+spec:
+  tls:
+  - hosts:
+    - myweb.example.com
+    secretName: nginx-tls-secret
+  rules:
+  - host: myweb.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-web-service
+            port:
+              number: 80
