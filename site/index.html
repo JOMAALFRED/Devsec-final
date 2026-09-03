@@ -1,574 +1,437 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Raptor Moto — Concessionnaire à Antananarivo</title>
+<title>Veloce | Vos trajets en Voiture & Moto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="s
+tylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  :root{
-    --bg: #101114;
-    --bg-soft: #17181C;
-    --panel: #1D2024;
-    --line: #302F35;
-    --text: #F2EFE7;
-    --text-dim: #9A9CA3;
-    --accent: #FF4A1F;
-    --accent-2: #F5C842;
-    --radius-s: 4px;
-    --ease: cubic-bezier(.22,.9,.28,1);
-  }
+:root {
+ --bg-main: #f4f7fb;
+ --bg-card: #ffffff;
+ --primary: #0090a8;
+ --primary-hover: #007488;
+ --accent: #5b21b6;
+ --text-main: #14161f;
+ --text-muted: #5f6673;
+ --border: rgba(20, 22, 31, 0.08);
+ --radius: 16px;
+ --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+body { background-color: var(--bg-main); color: var(--text-main); overflow-x: hidden; line-height: 1.6; }
+img { max-width: 100%; display: block; }
 
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:'Inter',sans-serif;
-    line-height:1.55;
-    overflow-x:hidden;
-  }
-  h1,h2,h3,.display{
-    font-family:'Bebas Neue',sans-serif;
-    font-weight:400;
-    letter-spacing:0.01em;
-    line-height:0.92;
-  }
-  a{color:inherit;text-decoration:none;}
-  img,svg{display:block;max-width:100%;}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 32px;}
-  @media(max-width:640px){.wrap{padding:0 20px;}}
+/* HEADER */
+header {
+ position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+ padding: 20px 8%; display: flex; justify-content: space-between; align-items: center;
+ background: rgba(244, 247, 251, 0.75); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+}
+.logo { font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; color: var(--text-main); text-decoration: none; d
+isplay: flex; align-items: center; gap: 8px; }
+.logo span { color: var(--primary); }
+nav { display: flex; gap: 30px; }
+nav a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: var(--tra
+nsition); }
+nav a:hover { color: var(--primary); }
+.nav-buttons { display: flex; gap: 15px; }
+.btn { padding: 12px 24px; border-radius: 30px; font-weight: 700; font-size: 0.9rem; cursor: pointer; border: none;
+transition: var(--transition); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.btn-ghost { background: transparent; color: var(--text-main); border: 1px solid var(--border); }
+.btn-ghost:hover { background: rgba(255,255,255,0.05); border-color: var(--primary); }
+.btn-primary { background: var(--primary); color: #fff; box-shadow: 0 4px 16px rgba(0,144,168,0.3); }
+.btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 22px rgba(0,14
+4,168,0.4); }
 
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
-  }
+/* MOBILE MENU */
+.burger { display: none; background: none; border: none; color: var(--text-main); font-size: 1.5rem; cursor: pointer
+; }
+.mobile-menu {
+ display: none; position: fixed; top: 72px; left: 0; width: 100%; background: var(--bg-card);
+ border-bottom: 1px solid var(--border); padding: 20px 8%; flex-direction: column; gap: 18px; z-index: 999;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a { color: var(--text-muted); text-decoration: none; font-weight: 600; }
 
-  /* ---------- NAV ---------- */
-  header{
-    position:sticky;top:0;z-index:50;
-    background:rgba(16,17,20,0.86);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  nav{
-    display:flex;align-items:center;justify-content:space-between;
-    height:74px;
-  }
-  .logo{
-    font-family:'Bebas Neue',sans-serif;
-    font-size:26px;letter-spacing:0.03em;
-    display:flex;align-items:center;gap:10px;
-  }
-  .logo span{color:var(--accent);}
-  .nav-links{display:flex;gap:36px;align-items:center;}
-  .nav-links a{
-    font-size:15px;font-weight:500;color:var(--text-dim);
-    transition:color .25s var(--ease);
-    position:relative;
-  }
-  .nav-links a:hover, .nav-links a:focus-visible{color:var(--text);}
-  .nav-cta{
-    background:var(--accent);color:#111;
-    padding:11px 22px;border-radius:var(--radius-s);
-    font-weight:700;font-size:14px;
-    transition:transform .25s var(--ease), background .25s var(--ease);
-    border:none;cursor:pointer;
-  }
-  .nav-cta:hover{transform:translateY(-2px);background:#ff5f36;}
-  .nav-toggle{display:none;background:none;border:none;color:var(--text);font-size:26px;cursor:pointer;}
-  @media(max-width:840px){
-    .nav-links{
-      position:fixed;top:74px;left:0;right:0;
-      background:var(--bg-soft);
-      flex-direction:column;gap:0;
-      border-bottom:1px solid var(--line);
-      transform:translateY(-140%);
-      transition:transform .35s var(--ease);
-    }
-    .nav-links.open{transform:translateY(0);}
-    .nav-links a{width:100%;padding:18px 32px;border-bottom:1px solid var(--line);}
-    .nav-cta{display:none;}
-    .nav-toggle{display:block;}
-  }
+/* HERO */
+.hero {
+ min-height: 100vh; padding: 140px 8% 80px 8%; display: grid; grid-template-columns: 1fr 1fr;
+ align-items: center; gap: 60px; position: relative;
+ background: radial-gradient(circle at 80% 20%, rgba(112,0,255,0.15) 0%, transparent 40%),
+             radial-gradient(circle at 20% 80%, rgba(0,240,255,0.1) 0%, transparent 40%);
+}
+.hero-text h1 { font-size: 3.8rem; line-height: 1.1; font-weight: 800; margin-bottom: 24px; letter-spacing: -1.5px;
+}
+.hero-text h1 span { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: te
+xt; -webkit-text-fill-color: transparent; }
+.hero-text p { color: var(--text-muted); font-size: 1.15rem; margin-bottom: 35px; max-width: 500px; }
+.hero-badges { display: flex; gap: 15px; flex-wrap: wrap; }
+.hero-badges > div { display: flex; align-items: center; gap: 10px; }
+.hero-badges span { font-size: 0.9rem; color: var(--text-muted); }
 
-  /* ---------- HERO ---------- */
-  .hero{
-    position:relative;
-    padding:64px 0 0;
-    overflow:hidden;
-    background:
-      linear-gradient(180deg, rgba(16,17,20,0) 0%, var(--bg) 92%),
-      repeating-linear-gradient(115deg, #16171b 0 2px, #101114 2px 46px);
-  }
-  .hero-grid{
-    display:grid;grid-template-columns:1.05fr 1fr;
-    gap:24px;align-items:center;
-    min-height:640px;
-  }
-  @media(max-width:900px){
-    .hero-grid{grid-template-columns:1fr;min-height:auto;padding-top:20px;}
-  }
+.booking-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding:
+32px; box-shadow: 0 20px 40px rgba(20,22,31,0.08); backdrop-filter: blur(20px); }
+.ride-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; background: rgba(255
+,255,255,0.03); padding: 6px; border-radius: 12px; border: 1px solid var(--border); }
+.ride-option { padding: 12px; text-align: center; border-radius: 8px; cursor: pointer; font-weight: 700; font-size:
+0.95rem; color: var(--text-muted); transition: var(--transition); display: flex; align-items: center; justify-conten
+t: center; gap: 10px; }
+.ride-option.active { background: var(--primary); color: #fff; box-shadow: 0 4px 15px rgba(0,144,168,0.25); }
+.input-group { position: relative; margin-bottom: 16px; }
+.input-group i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--primary); font-
+size: 1.1rem; }
+.input-group input { width: 100%; padding: 16px 16px 16px 48px; background: rgba(255,255,255,0.03); border: 1px soli
+d var(--border); border-radius: 12px; color: var(--text-main); font-size: 0.95rem; outline: none; transition: var(--
+transition); }
+.input-group input:focus { border-color: var(--primary); background: rgba(255,255,255,0.06); }
+.price-estimate { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: rgb
+a(0,240,255,0.05); border: 1px dashed rgba(0,240,255,0.3); border-radius: 12px; margin-bottom: 24px; }
+.price-estimate span { color: var(--text-muted); font-size: 0.9rem; }
+.price-estimate strong { color: var(--primary); font-size: 1.4rem; }
 
-  .eyebrow-line{
-    display:flex;align-items:center;gap:12px;
-    color:var(--text-dim);font-size:14px;font-weight:600;
-    margin-bottom:22px;
-  }
-  .eyebrow-line .dash{width:34px;height:2px;background:var(--accent);}
+/* GENERIC SECTION */
+.section-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 12px; }
+.section-subtitle { color: var(--text-muted); margin-bottom: 60px; font-size: 1.05rem; }
 
-  .hero h1{
-    font-size:clamp(52px, 8.4vw, 108px);
-    color:var(--text);
-  }
-  .hero h1 .line{display:block;overflow:hidden;}
-  .hero h1 .line span{
-    display:block;transform:translateY(110%);
-    animation:riseIn .85s var(--ease) forwards;
-  }
-  .hero h1 .line:nth-child(2) span{animation-delay:.12s;}
-  .hero h1 .accent-word{color:var(--accent);}
-  @keyframes riseIn{to{transform:translateY(0);}}
+/* SERVICES */
+.services { padding: 100px 8%; text-align: center; }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+.service-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow:
+hidden; text-align: left; transition: var(--transition); }
+.service-card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,
+0.5); }
+.service-card img { width: 100%; height: 180px; object-fit: cover; }
+.service-card-body { padding: 30px; }
+.service-icon { width: 60px; height: 60px; border-radius: 12px; background: rgba(0,240,255,0.1); color: var(--primar
+y); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin-bottom: 20px; }
+.service-card h3 { font-size: 1.4rem; margin-bottom: 12px; }
+.service-card p { color: var(--text-muted); font-size: 0.95rem; }
 
-  .hero p.lede{
-    max-width:440px;margin-top:26px;
-    color:var(--text-dim);font-size:17px;
-    opacity:0;animation:fadeUp .8s var(--ease) forwards;
-    animation-delay:.55s;
-  }
-  .hero-actions{
-    display:flex;gap:16px;margin-top:34px;flex-wrap:wrap;
-    opacity:0;animation:fadeUp .8s var(--ease) forwards;
-    animation-delay:.72s;
-  }
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+/* STATS */
+.features { padding: 80px 8%; background: var(--bg-card); border-y: 1px solid var(--border); display: grid; grid-tem
+plate-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: center; }
+.stat-item h2 { font-size: 3rem; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+.stat-item p { color: var(--text-muted); font-weight: 600; }
 
-  .btn-primary, .btn-ghost{
-    padding:15px 26px;border-radius:var(--radius-s);
-    font-weight:700;font-size:15px;cursor:pointer;border:none;
-    transition:transform .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease);
-  }
-  .btn-primary{background:var(--accent);color:#111;}
-  .btn-primary:hover{transform:translateY(-2px);background:#ff5f36;}
-  .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--line);}
-  .btn-ghost:hover{border-color:var(--text-dim);transform:translateY(-2px);}
+/* TESTIMONIALS */
+.testimonials { padding: 100px 8%; text-align: center; }
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+.testimonial-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); paddi
+ng: 32px; text-align: left; }
+.testimonial-stars { color: #ffb800; margin-bottom: 16px; font-size: 0.9rem; }
+.testimonial-text { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 24px; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 14px; }
+.testimonial-author img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+.testimonial-author strong { display: block; font-size: 0.95rem; }
+.testimonial-author span { color: var(--text-muted); font-size: 0.85rem; }
 
-  .hero-stats{
-    display:flex;gap:34px;margin-top:52px;
-    opacity:0;animation:fadeUp .8s var(--ease) forwards;
-    animation-delay:.9s;
-  }
-  .hero-stats div b{
-    font-family:'Bebas Neue';font-size:34px;display:block;color:var(--text);
-  }
-  .hero-stats div span{font-size:13px;color:var(--text-dim);}
+/* FAQ */
+.faq { padding: 100px 8%; max-width: 800px; margin: 0 auto; text-align: center; }
+.faq-list { text-align: left; margin-top: 40px; }
+.faq-item { border: 1px solid var(--border); border-radius: 12px; margin-bottom: 14px; overflow: hidden; background:
+var(--bg-card); }
+.faq-question { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; cursor: poin
+ter; font-weight: 700; }
+.faq-question i { transition: var(--transition); color: var(--primary); }
+.faq-item.open .faq-question i { transform: rotate(45deg); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 24px; color: var(--text-
+muted); font-size: 0.95rem; }
+.faq-item.open .faq-answer { max-height: 200px; padding: 0 24px 20px 24px; }
 
-  /* Hero illustration panel */
-  .hero-art{
-    position:relative;
-    display:flex;align-items:center;justify-content:center;
-    min-height:460px;
-  }
-  .art-backdrop{
-    position:absolute;inset:0;
-    background:radial-gradient(circle at 55% 45%, #24272d 0%, transparent 62%);
-  }
-  .speedlines{
-    position:absolute;inset:0;pointer-events:none;
-  }
-  .speedlines .l{
-    position:absolute;height:2px;background:linear-gradient(90deg, transparent, var(--text-dim) 40%, transparent);
-    opacity:.35;
-    animation:zoom 2.6s linear infinite;
-  }
-  @keyframes zoom{
-    0%{transform:translateX(-40px);opacity:0;}
-    12%{opacity:.4;}
-    100%{transform:translateX(60px);opacity:0;}
-  }
-  .moto-svg{
-    position:relative;z-index:2;width:min(92%, 560px);
-    filter:drop-shadow(0 26px 40px rgba(0,0,0,0.55));
-    animation:float 5.5s ease-in-out infinite;
-  }
-  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+/* CONTACT */
+.contact { padding: 100px 8%; background: var(--bg-card); border-top: 1px solid var(--border); }
+.contact-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+.contact-form { display: grid; gap: 16px; margin-top: 40px; text-align: left; }
+.contact-form input, .contact-form textarea {
+ width: 100%; padding: 16px; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+ border-radius: 12px; color: var(--text-main); font-size: 0.95rem; outline: none; transition: var(--transition); re
+size: vertical;
+}
+.contact-form input:focus, .contact-form textarea:focus { border-color: var(--primary); background: rgba(255,255,255
+,0.06); }
+.contact-form button { justify-self: start; }
+.form-note { color: var(--primary); font-size: 0.9rem; margin-top: 12px; display: none; }
+.form-note.show { display: block; }
 
-  /* ---------- SECTION HEADERS ---------- */
-  .sec-head{
-    display:grid;grid-template-columns:1fr auto;
-    align-items:end;gap:24px;margin-bottom:44px;
-  }
-  .sec-head h2{font-size:clamp(36px,5vw,54px);}
-  .sec-head p{color:var(--text-dim);max-width:360px;font-size:15.5px;}
-  section{padding:100px 0;}
-  @media(max-width:640px){section{padding:70px 0;} .sec-head{grid-template-columns:1fr;}}
+/* FOOTER */
+footer { padding: 60px 8% 30px 8%; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap:
+40px; }
+.footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { color: var(--text-muted); text-decoration: none; transition: var(--transition); }
+.footer-links a:hover { color: var(--primary); }
+.copyright { text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border);
+padding-top: 20px; }
 
-  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s var(--ease), transform .7s var(--ease);}
-  .reveal.in{opacity:1;transform:translateY(0);}
-
-  /* ---------- MODELS (asymmetric) ---------- */
-  .models{border-top:1px solid var(--line);}
-  .model-grid{
-    display:grid;
-    grid-template-columns:1.4fr 1fr;
-    grid-template-rows:auto auto;
-    gap:20px;
-  }
-  @media(max-width:840px){.model-grid{grid-template-columns:1fr;}}
-
-  .model-card{
-    background:var(--panel);border:1px solid var(--line);
-    border-radius:var(--radius-s);
-    padding:30px;position:relative;overflow:hidden;
-    transition:border-color .3s var(--ease);
-  }
-  .model-card:hover{border-color:var(--accent);}
-  .model-card.feature{grid-row:span 2;}
-  .model-tag{
-    display:inline-block;font-size:12px;font-weight:700;color:var(--accent-2);
-    margin-bottom:14px;
-  }
-  .model-card h3{font-size:38px;margin-bottom:8px;}
-  .model-card .spec-row{
-    display:flex;gap:22px;margin:20px 0 24px;flex-wrap:wrap;
-  }
-  .model-card .spec-row div{font-size:13px;color:var(--text-dim);}
-  .model-card .spec-row b{display:block;color:var(--text);font-family:'Bebas Neue';font-size:20px;}
-  .model-card .price{
-    display:flex;align-items:center;justify-content:space-between;
-    padding-top:20px;border-top:1px solid var(--line);
-  }
-  .price b{font-size:24px;font-family:'Bebas Neue';color:var(--text);}
-  .price a{font-size:14px;font-weight:700;color:var(--accent);}
-
-  .feature .bike-illustration{width:100%;max-width:420px;margin:6px auto 10px;}
-
-  /* ---------- WHY US — stat strip, not cards ---------- */
-  .why{border-top:1px solid var(--line);background:var(--bg-soft);}
-  .why-grid{
-    display:grid;grid-template-columns:repeat(4,1fr);
-    border:1px solid var(--line);
-  }
-  @media(max-width:760px){.why-grid{grid-template-columns:repeat(2,1fr);}}
-  .why-item{
-    padding:38px 28px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);
-  }
-  .why-item:nth-child(4n){border-right:none;}
-  .why-item .num{
-    font-family:'Bebas Neue';font-size:56px;color:var(--accent);line-height:1;
-  }
-  .why-item p{margin-top:12px;color:var(--text-dim);font-size:14.5px;max-width:220px;}
-
-  /* ---------- SERVICE STRIP ---------- */
-  .service{border-top:1px solid var(--line);}
-  .service-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
-    background:var(--line);border:1px solid var(--line);
-  }
-  @media(max-width:760px){.service-grid{grid-template-columns:1fr;}}
-  .service-item{
-    background:var(--bg);padding:38px;
-  }
-  .service-item h3{font-size:24px;margin-bottom:12px;color:var(--text);}
-  .service-item p{color:var(--text-dim);font-size:14.5px;}
-
-  /* ---------- CTA / FOOTER ---------- */
-  .cta{
-    border-top:1px solid var(--line);
-    background:linear-gradient(180deg, var(--bg) 0%, #16171b 100%);
-    text-align:left;
-  }
-  .cta-inner{
-    display:grid;grid-template-columns:1.3fr auto;align-items:center;gap:30px;
-  }
-  @media(max-width:760px){.cta-inner{grid-template-columns:1fr;text-align:left;}}
-  .cta h2{font-size:clamp(34px,5.4vw,58px);}
-  .cta p{color:var(--text-dim);margin-top:14px;max-width:420px;}
-
-  footer{border-top:1px solid var(--line);padding:50px 0 40px;}
-  .footer-grid{
-    display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:34px;margin-bottom:40px;
-  }
-  @media(max-width:760px){.footer-grid{grid-template-columns:1fr;}}
-  .footer-grid h4{font-size:14px;color:var(--text-dim);margin-bottom:14px;font-weight:600;}
-  .footer-grid ul{list-style:none;}
-  .footer-grid li{margin-bottom:10px;}
-  .footer-grid a{color:var(--text-dim);font-size:14.5px;transition:color .2s;}
-  .footer-grid a:hover{color:var(--text);}
-  .foot-bottom{
-    display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;
-    padding-top:24px;border-top:1px solid var(--line);
-    color:var(--text-dim);font-size:13px;
-  }
+/* RESPONSIVE */
+@media (max-width: 968px) {
+ .hero { grid-template-columns: 1fr; padding-top: 120px; }
+ .hero-text h1 { font-size: 2.6rem; }
+ nav { display: none; }
+ .nav-buttons .btn-ghost { display: none; }
+ .burger { display: block; }
+ .section-title { font-size: 2rem; }
+}
+@media (max-width: 560px) {
+ header { padding: 16px 6%; }
+ .hero { padding: 110px 6% 60px 6%; }
+ .hero-text h1 { font-size: 2.1rem; }
+ .services, .testimonials, .faq, .contact { padding: 70px 6%; }
+ .footer-content { flex-direction: column; align-items: flex-start; }
+}
 </style>
 </head>
 <body>
 
 <header>
-  <nav class="wrap">
-    <div class="logo">RAPTOR<span>MOTO</span></div>
-    <div class="nav-links" id="navLinks">
-      <a href="#modeles">Modèles</a>
-      <a href="#pourquoi">Pourquoi nous</a>
-      <a href="#service">Service</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <button class="nav-cta" onclick="document.getElementById('contact').scrollIntoView()">Réserver un essai</button>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
-  </nav>
+ <a href="#" class="logo"><i class="fa-solid fa-bolt"></i> Veloce<span>.</span></a>
+ <nav>
+   <a href="#services">Services</a>
+   <a href="#avis">Avis</a>
+   <a href="#faq">FAQ</a>
+   <a href="#contact">Contact</a>
+ </nav>
+ <div class="nav-buttons">
+   <a href="#" class="btn btn-ghost">Connexion</a>
+   <a href="#" class="btn btn-primary">Télécharger</a>
+ </div>
+ <button class="burger" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
 </header>
 
+<div class="mobile-menu" id="mobileMenu">
+ <a href="#services" onclick="toggleMenu()">Services</a>
+ <a href="#avis" onclick="toggleMenu()">Avis</a>
+ <a href="#faq" onclick="toggleMenu()">FAQ</a>
+ <a href="#contact" onclick="toggleMenu()">Contact</a>
+ <a href="#" class="btn btn-primary" style="justify-content:center;">Télécharger</a>
+</div>
+
 <section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow-line"><span class="dash"></span>Concessionnaire à Antananarivo</div>
-      <h1>
-        <span class="line"><span>Prenez la</span></span>
-        <span class="line"><span class="accent-word">route.</span></span>
-      </h1>
-      <p class="lede">Des motos routières, sportives et tout-terrain choisies pour les rues d'Antananarivo comme pour les pistes en dehors de la ville. Essai gratuit, financement sur place, entretien à vie.</p>
-      <div class="hero-actions">
-        <button class="btn-primary" onclick="document.getElementById('modeles').scrollIntoView()">Voir les modèles</button>
-        <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView()">Réserver un essai</button>
-      </div>
-      <div class="hero-stats">
-        <div><b>12</b><span>modèles en stock</span></div>
-        <div><b>3 ans</b><span>garantie constructeur</span></div>
-        <div><b>1 500+</b><span>motards équipés</span></div>
-      </div>
-    </div>
+ <div class="hero-text">
+   <h1>Déplacez-vous plus vite <span>dans la ville.</span></h1>
+   <p>Commandez une course en voiture de confort ou évitez les embouteillages en moto taxi en un clic.</p>
+   <div class="hero-badges">
+     <div><i class="fa-solid fa-shield-halved" style="color: var(--primary); font-size: 1.5rem;"></i><span>Chauffeu
+rs certifiés</span></div>
+     <div><i class="fa-solid fa-clock" style="color: var(--accent); font-size: 1.5rem;"></i><span>Arrivée en &lt; 3
+min</span></div>
+   </div>
+ </div>
 
-    <div class="hero-art">
-      <div class="art-backdrop"></div>
-      <div class="speedlines" id="speedlines"></div>
-      <svg class="moto-svg" viewBox="0 0 560 340" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="280" cy="300" rx="220" ry="14" fill="#000" opacity="0.35"/>
-        <g stroke="#F2EFE7" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M120 235 L190 150 L300 150 L340 235" />
-          <path d="M190 150 L215 110 L270 105" />
-          <path d="M300 150 L330 120 L385 118" />
-          <path d="M120 235 L90 235" />
-          <path d="M340 235 L400 210 L430 235" />
-          <path d="M215 110 L245 108 L262 138" fill="#FF4A1F" stroke="none"/>
-        </g>
-        <circle cx="120" cy="235" r="52" fill="none" stroke="#F2EFE7" stroke-width="6"/>
-        <circle cx="120" cy="235" r="14" fill="#F2EFE7"/>
-        <circle cx="430" cy="235" r="52" fill="none" stroke="#F2EFE7" stroke-width="6"/>
-        <circle cx="430" cy="235" r="14" fill="#F2EFE7"/>
-        <rect x="255" y="118" width="70" height="34" rx="6" fill="#1D2024" stroke="#FF4A1F" stroke-width="3"/>
-        <path d="M330 120 L385 118 L392 135 L340 138 Z" fill="#FF4A1F"/>
-        <path d="M96 235 A24 24 0 0 1 120 211" stroke="#F5C842" stroke-width="5" fill="none"/>
-      </svg>
-    </div>
-  </div>
+ <div class="booking-card">
+   <div class="ride-selector">
+     <div class="ride-option active" onclick="selectType('car', this)"><i class="fa-solid fa-car"></i> Voiture</div
+>
+     <div class="ride-option" onclick="selectType('moto', this)"><i class="fa-solid fa-motorcycle"></i> Moto Taxi</
+div>
+   </div>
+   <div class="input-group">
+     <i class="fa-solid fa-location-dot"></i>
+     <input type="text" placeholder="Lieu de prise en charge" id="pickup" value="Centre ville">
+   </div>
+   <div class="input-group">
+     <i class="fa-solid fa-flag-checkered"></i>
+     <input type="text" placeholder="Où allez-vous ?" id="destination">
+   </div>
+   <div class="price-estimate">
+     <span>Estimation :</span>
+     <strong id="price-display">-- Ar</strong>
+   </div>
+   <button class="btn btn-primary" style="width: 100%; justify-content: center; padding: 16px;" onclick="searchRide
+()">
+     Commander maintenant <i class="fa-solid fa-arrow-right"></i>
+   </button>
+ </div>
 </section>
 
-<section class="models" id="modeles">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>Nos modèles</h2>
-      <p>Trois motos pensées pour trois façons de rouler — la ville, la route longue distance, et le tout-terrain.</p>
-    </div>
-
-    <div class="model-grid">
-      <div class="model-card feature reveal">
-        <span class="model-tag">SPORT</span>
-        <h3>Cobra 650</h3>
-        <svg class="bike-illustration" viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#F2EFE7" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M110 190 L170 120 L290 120 L330 190"/>
-            <path d="M170 120 L195 85 L250 82"/>
-            <path d="M290 120 L320 95 L375 92"/>
-            <path d="M110 190 L80 190"/>
-            <path d="M330 190 L390 165 L420 190"/>
-          </g>
-          <circle cx="110" cy="190" r="46" fill="none" stroke="#F2EFE7" stroke-width="6"/>
-          <circle cx="420" cy="190" r="46" fill="none" stroke="#F2EFE7" stroke-width="6"/>
-          <path d="M320 95 L375 92 L382 108 L330 111 Z" fill="#FF4A1F"/>
-        </svg>
-        <p style="color:var(--text-dim);font-size:14.5px;max-width:400px;">Carénage aérodynamique, position basse, motorisation vive — pensée pour ceux qui veulent sentir chaque virage.</p>
-        <div class="spec-row">
-          <div><b>649 cc</b>2 cylindres</div>
-          <div><b>72 ch</b>puissance</div>
-          <div><b>194 kg</b>poids à sec</div>
-        </div>
-        <div class="price">
-          <b>18 900 000 Ar</b>
-          <a href="#contact">Réserver un essai</a>
-        </div>
-      </div>
-
-      <div class="model-card reveal">
-        <span class="model-tag">ADVENTURE</span>
-        <h3>Skyline 400</h3>
-        <p style="color:var(--text-dim);font-size:14.5px;">Suspension longue course et garde au sol élevée pour sortir de la ville sans hésiter.</p>
-        <div class="spec-row">
-          <div><b>398 cc</b>monocylindre</div>
-          <div><b>44 ch</b>puissance</div>
-        </div>
-        <div class="price">
-          <b>11 400 000 Ar</b>
-          <a href="#contact">Réserver</a>
-        </div>
-      </div>
-
-      <div class="model-card reveal">
-        <span class="model-tag">URBAINE</span>
-        <h3>Meridian 250</h3>
-        <p style="color:var(--text-dim);font-size:14.5px;">Légère et maniable, conçue pour les trajets quotidiens et un entretien simple.</p>
-        <div class="spec-row">
-          <div><b>249 cc</b>monocylindre</div>
-          <div><b>27 ch</b>puissance</div>
-        </div>
-        <div class="price">
-          <b>7 200 000 Ar</b>
-          <a href="#contact">Réserver</a>
-        </div>
-      </div>
-    </div>
-  </div>
+<section class="features">
+ <div class="stat-item"><h2>15K+</h2><p>Chauffeurs actifs</p></div>
+ <div class="stat-item"><h2>4.9/5</h2><p>Note moyenne</p></div>
+ <div class="stat-item"><h2>&lt; 3 min</h2><p>Temps d'attente</p></div>
+ <div class="stat-item"><h2>100%</h2><p>Trajets sécurisés</p></div>
 </section>
 
-<section class="why" id="pourquoi">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>Pourquoi Raptor Moto</h2>
-      <p>Ce que nos clients trouvent chez nous et rarement ailleurs.</p>
-    </div>
-    <div class="why-grid reveal">
-      <div class="why-item"><div class="num" data-count="3">0</div><p>ans de garantie constructeur incluse sur chaque moto neuve</p></div>
-      <div class="why-item"><div class="num" data-count="24">0</div><p>heures pour une réponse sur toute demande de pièce détachée</p></div>
-      <div class="why-item"><div class="num" data-count="1500">0</div><p>motards équipés depuis l'ouverture du concessionnaire</p></div>
-      <div class="why-item"><div class="num" data-count="0" data-suffix="%">0</div><p>d'intérêt sur le financement les 6 premiers mois</p></div>
-    </div>
-  </div>
+<section class="services" id="services">
+ <h2 class="section-title">Nos options de transport</h2>
+ <p class="section-subtitle">Choisissez le véhicule adapté à vos besoins et à votre budget.</p>
+ <div class="services-grid">
+   <div class="service-card">
+     <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600&q=80" alt="Moto taxi">
+     <div class="service-card-body">
+       <div class="service-icon"><i class="fa-solid fa-motorcycle"></i></div>
+       <h3>Veloce Moto</h3>
+       <p>Évitez les embouteillages aux heures de pointe. Équipement de sécurité fourni (casque & charlotte).</p>
+     </div>
+   </div>
+   <div class="service-card">
+     <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?w=600&q=80" alt="Voiture Veloce Go">
+     <div class="service-card-body">
+       <div class="service-icon"><i class="fa-solid fa-car-side"></i></div>
+       <h3>Veloce Go</h3>
+       <p>Des berlines confortables et économiques pour vos trajets quotidiens jusqu'à 4 passagers.</p>
+     </div>
+   </div>
+   <div class="service-card">
+     <img src="https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&q=80" alt="Voiture Veloce Busines
+s">
+     <div class="service-card-body">
+       <div class="service-icon"><i class="fa-solid fa-car-rear"></i></div>
+       <h3>Veloce Business</h3>
+       <p>Véhicules haut de gamme avec chauffeurs VIP, bouteille d'eau et chargeurs pour vos trajets pros.</p>
+     </div>
+   </div>
+ </div>
 </section>
 
-<section class="service" id="service">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <h2>Après l'achat</h2>
-      <p>Le service ne s'arrête pas à la vente.</p>
-    </div>
-    <div class="service-grid reveal">
-      <div class="service-item">
-        <h3>Entretien</h3>
-        <p>Atelier sur place avec pièces d'origine et mécaniciens formés par nos constructeurs partenaires.</p>
-      </div>
-      <div class="service-item">
-        <h3>Financement</h3>
-        <p>Plans de paiement sur 6, 12 ou 24 mois, avec dossier étudié en moins de 48 heures.</p>
-      </div>
-      <div class="service-item">
-        <h3>Reprise</h3>
-        <p>Votre ancienne moto est estimée gratuitement et déduite du prix de la nouvelle.</p>
-      </div>
-    </div>
-  </div>
+<section class="testimonials" id="avis">
+ <h2 class="section-title">Ils nous font confiance</h2>
+ <p class="section-subtitle">Ce que nos utilisateurs disent de Veloce.</p>
+ <div class="testimonials-grid">
+   <div class="testimonial-card">
+     <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-so
+lid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+     <p class="testimonial-text">"Toujours à l'heure et les chauffeurs sont très professionnels. Mon appli préférée
+pour aller au travail."</p>
+     <div class="testimonial-author">
+       <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Cliente Veloce">
+       <div><strong>Hery R.</strong><span>Antananarivo</span></div>
+     </div>
+   </div>
+   <div class="testimonial-card">
+     <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-so
+lid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
+     <p class="testimonial-text">"La moto-taxi m'a sauvé pendant les heures de pointe. Prix clair, aucune mauvaise
+surprise."</p>
+     <div class="testimonial-author">
+       <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client Veloce">
+       <div><strong>Tojo A.</strong><span>Antananarivo</span></div>
+     </div>
+   </div>
+   <div class="testimonial-card">
+     <div class="testimonial-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-so
+lid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+     <p class="testimonial-text">"Le service Business est parfait pour mes rendez-vous clients. Voitures propres, c
+hauffeurs ponctuels."</p>
+     <div class="testimonial-author">
+       <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Cliente Veloce Business">
+       <div><strong>Nirina F.</strong><span>Antananarivo</span></div>
+     </div>
+   </div>
+ </div>
 </section>
 
-<section class="cta" id="contact">
-  <div class="wrap cta-inner">
-    <div class="reveal">
-      <h2>Venez l'essayer avant de la choisir.</h2>
-      <p>Ouvert du lundi au samedi, 8h–18h. Antananarivo, Madagascar.</p>
-    </div>
-    <div class="hero-actions reveal" style="animation:none;opacity:1;">
-      <button class="btn-primary" onclick="alert('Merci ! Un conseiller vous contactera pour fixer un essai.')">Réserver un essai</button>
-      <button class="btn-ghost" onclick="alert('+261 34 00 000 00')">Appeler le concessionnaire</button>
-    </div>
-  </div>
+<section class="faq" id="faq">
+ <h2 class="section-title">Questions fréquentes</h2>
+ <p class="section-subtitle">Tout ce que vous devez savoir avant votre premier trajet.</p>
+ <div class="faq-list">
+   <div class="faq-item">
+     <div class="faq-question" onclick="toggleFaq(this)">Comment est calculé le prix d'une course ? <i class="fa-so
+lid fa-plus"></i></div>
+     <div class="faq-answer">Le prix dépend de la distance, du type de véhicule choisi et de la demande en temps ré
+el. L'estimation s'affiche avant la confirmation de la course.</div>
+   </div>
+   <div class="faq-item">
+     <div class="faq-question" onclick="toggleFaq(this)">Les chauffeurs sont-ils vérifiés ? <i class="fa-solid fa-p
+lus"></i></div>
+     <div class="faq-answer">Oui, chaque chauffeur passe une vérification d'identité et de permis avant d'être acti
+vé sur la plateforme.</div>
+   </div>
+   <div class="faq-item">
+     <div class="faq-question" onclick="toggleFaq(this)">Quels moyens de paiement sont acceptés ? <i class="fa-soli
+d fa-plus"></i></div>
+     <div class="faq-answer">Paiement en espèces ou par mobile money directement auprès du chauffeur à la fin de la
+course.</div>
+   </div>
+   <div class="faq-item">
+     <div class="faq-question" onclick="toggleFaq(this)">Puis-je annuler une course ? <i class="fa-solid fa-plus"><
+/i></div>
+     <div class="faq-answer">Oui, tant que le chauffeur n'est pas arrivé au point de prise en charge, l'annulation
+est gratuite.</div>
+   </div>
+ </div>
+</section>
+
+<section class="contact" id="contact">
+ <div class="contact-inner">
+   <h2 class="section-title">Une question ? Contactez-nous</h2>
+   <p class="section-subtitle">Notre équipe vous répond sous 24h.</p>
+   <form class="contact-form" onsubmit="submitContact(event)">
+     <input type="text" placeholder="Votre nom" required>
+     <input type="email" placeholder="Votre email" required>
+     <textarea rows="4" placeholder="Votre message" required></textarea>
+     <button type="submit" class="btn btn-primary">Envoyer <i class="fa-solid fa-paper-plane"></i></button>
+   </form>
+   <p class="form-note" id="formNote">Merci, votre message a bien été envoyé !</p>
+ </div>
 </section>
 
 <footer>
-  <div class="wrap">
-    <div class="footer-grid">
-      <div>
-        <div class="logo" style="margin-bottom:14px;">RAPTOR<span>MOTO</span></div>
-        <p style="color:var(--text-dim);font-size:14.5px;max-width:280px;">Concessionnaire moto indépendant à Antananarivo. Vente, entretien et financement.</p>
-      </div>
-      <div>
-        <h4>Navigation</h4>
-        <ul>
-          <li><a href="#modeles">Modèles</a></li>
-          <li><a href="#pourquoi">Pourquoi nous</a></li>
-          <li><a href="#service">Service</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="tel:+261340000000">+261 34 00 000 00</a></li>
-          <li><a href="mailto:contact@raptormoto.mg">contact@raptormoto.mg</a></li>
-          <li><a href="#">Antananarivo, Madagascar</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span>© 2026 Raptor Moto. Tous droits réservés.</span>
-      <span>Site conçu pour la route.</span>
-    </div>
-  </div>
+ <div class="footer-content">
+   <a href="#" class="logo"><i class="fa-solid fa-bolt"></i> JOMA-HUBER<span>.</span></a>
+   <div class="footer-links">
+     <a href="#">Confidentialité</a>
+     <a href="#">Conditions d'utilisation</a>
+     <a href="#">Devenir Chauffeur</a>
+   </div>
+ </div>
+ <div class="copyright">&copy; 2026 Veloce Inc. Tous droits réservés.</div>
 </footer>
 
 <script>
-  // Mobile nav toggle
-  const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+let currentType = 'car';
 
-  // Speed lines generation
-  const speedContainer = document.getElementById('speedlines');
-  for (let i = 0; i < 10; i++) {
-    const l = document.createElement('div');
-    l.className = 'l';
-    l.style.top = (10 + Math.random() * 80) + '%';
-    l.style.left = (Math.random() * 20) + '%';
-    l.style.width = (60 + Math.random() * 120) + 'px';
-    l.style.animationDelay = (Math.random() * 2.6) + 's';
-    l.style.animationDuration = (2 + Math.random() * 1.4) + 's';
-    speedContainer.appendChild(l);
-  }
+function selectType(type, element) {
+ document.querySelectorAll('.ride-option').forEach(el => el.classList.remove('active'));
+ element.classList.add('active');
+ currentType = type;
+ calculatePrice();
+}
 
-  // Scroll reveal
-  const revealEls = document.querySelectorAll('.reveal');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in');
-        io.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-  revealEls.forEach(el => io.observe(el));
+document.getElementById('destination').addEventListener('input', calculatePrice);
 
-  // Count-up stats
-  const counters = document.querySelectorAll('.num');
-  const countIO = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const target = parseInt(el.getAttribute('data-count'), 10);
-        const suffix = el.getAttribute('data-suffix') || '';
-        let current = 0;
-        const duration = 1200;
-        const start = performance.now();
-        function tick(now){
-          const progress = Math.min((now - start) / duration, 1);
-          current = Math.floor(progress * target);
-          el.textContent = current + suffix;
-          if (progress < 1) requestAnimationFrame(tick);
-          else el.textContent = target + suffix;
-        }
-        requestAnimationFrame(tick);
-        countIO.unobserve(el);
-      }
-    });
-  }, { threshold: 0.4 });
-  counters.forEach(c => countIO.observe(c));
+function calculatePrice() {
+ const dest = document.getElementById('destination').value;
+ const priceDisplay = document.getElementById('price-display');
+ if (dest.trim().length > 2) {
+   let basePrice = currentType === 'moto' ? 4000 : 8000;
+   let randomFactor = Math.floor(Math.random() * 3000);
+   let finalPrice = basePrice + randomFactor;
+   priceDisplay.textContent = finalPrice.toLocaleString() + ' Ar';
+ } else {
+   priceDisplay.textContent = '-- Ar';
+ }
+}
+
+function searchRide() {
+ const dest = document.getElementById('destination').value;
+ if (!dest) {
+   alert('Veuillez entrer une destination.');
+ } else {
+   alert(`Recherche d'un chauffeur ${currentType === 'moto' ? 'Moto' : 'Voiture'} vers "${dest}" en cours...`);
+ }
+}
+
+function toggleMenu() {
+ document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+function toggleFaq(el) {
+ el.parentElement.classList.toggle('open');
+}
+
+function submitContact(e) {
+ e.preventDefault();
+ document.getElementById('formNote').classList.add('show');
+ e.target.reset();
+ setTimeout(() => document.getElementById('formNote').classList.remove('show'), 4000);
+}
 </script>
-
 </body>
 </html>
+[joma@archli
